@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Review System</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Product Review System</h1>
+            <p class="subtitle">Browse, add, and search product reviews</p>
+        </header>
+
+        <section class="search-section">
+            <input type="text" id="search" placeholder="Search by product name or details..." aria-label="Search products">
+        </section>
+
+        <section class="form-section">
+            <h2>Add a Product Review</h2>
+            <form id="product-form" novalidate>
+                <div class="form-row">
+                    <input type="text" id="product-name" placeholder="Product Name" required>
+                    <input type="text" id="product-details" placeholder="Product Details" required>
+                </div>
+
+                <div class="rating-field">
+                    <span class="rating-label">Rating</span>
+                    <div class="star-input" id="star-input" role="radiogroup" aria-label="Rating out of 5">
+                        <button type="button" class="star-btn" data-value="1" aria-label="1 star">★</button>
+                        <button type="button" class="star-btn" data-value="2" aria-label="2 stars">★</button>
+                        <button type="button" class="star-btn" data-value="3" aria-label="3 stars">★</button>
+                        <button type="button" class="star-btn" data-value="4" aria-label="4 stars">★</button>
+                        <button type="button" class="star-btn" data-value="5" aria-label="5 stars">★</button>
+                    </div>
+                    <span class="rating-error" id="rating-error">Please select a rating</span>
+                </div>
+
+                <textarea id="product-review" placeholder="Write your review here..." required></textarea>
+                <button type="submit" class="submit-btn">Add Product</button>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <div class="list-header">
+                <h2>Products</h2>
+                <span id="product-count" class="count-badge">0</span>
+            </div>
+            <div id="product-list" class="product-grid"></div>
+            <p id="empty-state" class="empty-state">No products yet — add one above to get started.</p>
+        </section>
+    </div>
+
+    <script src="web.js"></script>
+</body>
+</html>
