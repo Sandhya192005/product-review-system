@@ -145,7 +145,12 @@ function renderProducts(list) {
 
     container.querySelectorAll('.delete-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            deleteProduct(Number(btn.dataset.id));
+            const card = btn.closest('.product-card');
+            const id = Number(btn.dataset.id);
+            card.classList.add('removing');
+            card.addEventListener('transitionend', function () {
+                deleteProduct(id);
+            }, { once: true });
         });
     });
 }
