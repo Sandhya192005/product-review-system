@@ -4,6 +4,15 @@ let products = loadProducts();
 let selectedRating = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
+    const session = getSession();
+    if (session) {
+        document.getElementById('welcome-message').textContent = 'Welcome, ' + session.username;
+    }
+    document.getElementById('logout-btn').addEventListener('click', function () {
+        clearSession();
+        window.location.href = 'login.html';
+    });
+
     renderProducts(products);
 
     document.getElementById('product-form').addEventListener('submit', handleSubmit);
