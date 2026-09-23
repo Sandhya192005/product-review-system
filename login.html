@@ -7,34 +7,94 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="container auth-container">
-        <header class="app-header">
-            <h1>Product Review System</h1>
-            <p class="subtitle">Sign in to browse and add product reviews</p>
-        </header>
+    <main class="auth-layout">
+        <!-- Left: brand story. Everything here is decorative. -->
+        <section class="auth-hero">
+            <div class="hero-decor" aria-hidden="true">
+                <span class="orb orb-1"></span>
+                <span class="orb orb-2"></span>
+                <span class="spark spark-1">&#10022;</span>
+                <span class="spark spark-2">&#10022;</span>
+                <span class="spark spark-3">&#10022;</span>
+                <span class="spark spark-4">&#10022;</span>
 
-        <section class="auth-section">
-            <div class="auth-tabs">
-                <button type="button" class="auth-tab active" data-tab="login">Log In</button>
-                <button type="button" class="auth-tab" data-tab="signup">Sign Up</button>
+                <div class="float-card fc-1">
+                    <div class="fc-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="fc-title">Amazing product</p>
+                    <p class="fc-text">"Really worth it."</p>
+                </div>
+                <div class="float-card fc-2">
+                    <div class="fc-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+                    <p class="fc-title">Great quality</p>
+                    <p class="fc-text">"Would recommend."</p>
+                </div>
             </div>
 
-            <form id="login-form" class="auth-form">
-                <input type="text" id="login-username" placeholder="Username" required autocomplete="username">
-                <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password">
-                <p class="auth-error" id="login-error"></p>
-                <button type="submit" class="submit-btn">Log In</button>
-            </form>
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">&#9733;</span>
+                <span>Product Review System</span>
+            </div>
 
-            <form id="signup-form" class="auth-form hidden">
-                <input type="text" id="signup-username" placeholder="Choose a username" required autocomplete="username">
-                <input type="password" id="signup-password" placeholder="Choose a password (min 6 characters)" required autocomplete="new-password" minlength="6">
-                <input type="password" id="signup-confirm" placeholder="Confirm password" required autocomplete="new-password">
-                <p class="auth-error" id="signup-error"></p>
-                <button type="submit" class="submit-btn">Sign Up</button>
-            </form>
+            <h1>Reviews that people can <span class="gradient-text">trust.</span></h1>
+
+            <p class="auth-hero-lead">
+                Discover products, share your experience, and keep your reviews
+                organized.
+            </p>
+
+            <ul class="auth-points">
+                <li>&#9733; Rate from 1 to 5</li>
+                <li>&#128269; Instant search</li>
+                <li>&#128274; Stays on your device</li>
+            </ul>
         </section>
-    </div>
+
+        <!-- Right: the authentication card. -->
+        <section class="auth-panel">
+            <div class="auth-section">
+                <span class="brand-mark" aria-hidden="true">&#9733;</span>
+                <h1 class="auth-heading">Welcome back</h1>
+                <p class="auth-sub">Sign in to browse and add product reviews.</p>
+
+                <div class="auth-tabs">
+                    <button type="button" class="auth-tab active" data-tab="login">Log In</button>
+                    <button type="button" class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+
+                <form id="login-form" class="auth-form">
+                    <div>
+                        <label class="field-label" for="login-username">Username</label>
+                        <input type="text" id="login-username" placeholder="Your username" required autocomplete="username">
+                    </div>
+                    <div>
+                        <label class="field-label" for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Your password" required autocomplete="current-password">
+                    </div>
+                    <p class="auth-error" id="login-error" role="alert"></p>
+                    <button type="submit" class="submit-btn">Log In</button>
+                </form>
+
+                <form id="signup-form" class="auth-form hidden">
+                    <div>
+                        <label class="field-label" for="signup-username">Username</label>
+                        <input type="text" id="signup-username" placeholder="Choose a username" required autocomplete="username">
+                    </div>
+                    <div>
+                        <label class="field-label" for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Choose a password (min 6 characters)" required autocomplete="new-password" minlength="6">
+                    </div>
+                    <div>
+                        <label class="field-label" for="signup-confirm">Confirm password</label>
+                        <input type="password" id="signup-confirm" placeholder="Repeat your password" required autocomplete="new-password">
+                    </div>
+                    <p class="auth-error" id="signup-error" role="alert"></p>
+                    <button type="submit" class="submit-btn">Create Account</button>
+                </form>
+
+                <p class="auth-foot">Demo project &mdash; accounts are stored in your browser only.</p>
+            </div>
+        </section>
+    </main>
 
     <script src="auth.js"></script>
     <script>

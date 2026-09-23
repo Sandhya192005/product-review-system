@@ -5,59 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Review System</title>
     <link rel="stylesheet" href="index.css">
+    <!-- auth.js must load before web.js, and requireSession() runs before the
+         body renders so unauthenticated visitors never see a content flash. -->
     <script src="auth.js"></script>
     <script>requireSession();</script>
 </head>
 <body>
+    <header class="site-nav">
+        <nav class="nav-inner" aria-label="Main">
+            <a class="brand" href="home.html">
+                <span class="brand-mark" aria-hidden="true">&#9733;</span>
+                <span>Product Review System</span>
+            </a>
+
+            <div class="nav-links">
+                <a class="nav-link" href="home.html#dashboard">Dashboard</a>
+                <a class="nav-link" href="home.html#add-review">Add Review</a>
+                <a class="nav-link" href="home.html#products">Products</a>
+            </div>
+
+            <div class="user-bar">
+                <button type="button" id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </nav>
+    </header>
+
     <div class="container">
-        <div class="user-bar">
-            <span id="welcome-message"></span>
-            <button type="button" id="logout-btn" class="logout-btn">Logout</button>
-        </div>
+        <!-- Dashboard ------------------------------------------------------ -->
+        <section id="dashboard" class="app-section">
+            <div class="hero">
+                <span class="eyebrow">Dashboard</span>
+                <!-- Filled by web.js from the active session — never hardcoded. -->
+                <h1 id="welcome-message"></h1>
+                <p class="hero-lead">Manage your product reviews in one place.</p>
+                <div class="hero-actions">
+                    <a class="btn-primary" href="#add-review">
+                        <span aria-hidden="true">&#43;</span> Add Product Review
+                    </a>
+                    <a class="btn-ghost" href="#products">Browse Reviews</a>
+                </div>
+            </div>
 
-        <header class="app-header">
-            <h1>Product Review System</h1>
-            <p class="subtitle">Browse, add, and search product reviews</p>
-        </header>
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h11l3 3v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                    </div>
+                    <p class="stat-label">Total Reviews</p>
+                    <div class="stat-value" id="stat-total">0</div>
+                    <p class="stat-note">Reviews you have written</p>
+                </article>
 
-        <section class="search-section">
-            <input type="text" id="search" placeholder="Search by product name or details..." aria-label="Search products">
+                <article class="stat-card">
+                    <div class="stat-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 9.4l6.1-.9Z"/></svg>
+                    </div>
+                    <p class="stat-label">Average Rating</p>
+                    <div class="stat-value" id="stat-average">&mdash;</div>
+                    <p class="stat-note">Across all your reviews</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    </div>
+                    <p class="stat-label">Latest Review</p>
+                    <div class="stat-value is-text" id="stat-latest">&mdash;</div>
+                    <p class="stat-note">Most recently added</p>
+                </article>
+            </div>
         </section>
 
-        <section class="form-section">
-            <h2>Add a Product Review</h2>
+        <!-- Add review ----------------------------------------------------- -->
+        <section id="add-review" class="app-section form-section">
+            <div class="section-head">
+                <span class="eyebrow">Add a Review</span>
+                <h2>Add a Product Review</h2>
+                <p class="section-sub">Share your experience with a product.</p>
+            </div>
+
             <form id="product-form" novalidate>
                 <div class="form-row">
-                    <input type="text" id="product-name" placeholder="Product Name" required>
-                    <input type="text" id="product-details" placeholder="Product Details" required>
+                    <div class="field">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" placeholder="e.g. Wireless Headphones" required>
+                    </div>
+                    <div class="field">
+                        <label for="product-details">Product Details</label>
+                        <input type="text" id="product-details" placeholder="e.g. Over-ear, noise cancelling" required>
+                    </div>
                 </div>
 
                 <div class="rating-field">
                     <span class="rating-label">Rating</span>
+                    <!-- #rating-error must stay the immediate next sibling of
+                         #star-input: the CSS sibling rule reveals it. -->
                     <div class="star-input" id="star-input" role="radiogroup" aria-label="Rating out of 5">
-                        <button type="button" class="star-btn" data-value="1" aria-label="1 star">★</button>
-                        <button type="button" class="star-btn" data-value="2" aria-label="2 stars">★</button>
-                        <button type="button" class="star-btn" data-value="3" aria-label="3 stars">★</button>
-                        <button type="button" class="star-btn" data-value="4" aria-label="4 stars">★</button>
-                        <button type="button" class="star-btn" data-value="5" aria-label="5 stars">★</button>
+                        <button type="button" class="star-btn" data-value="1" aria-label="1 star">&#9733;</button>
+                        <button type="button" class="star-btn" data-value="2" aria-label="2 stars">&#9733;</button>
+                        <button type="button" class="star-btn" data-value="3" aria-label="3 stars">&#9733;</button>
+                        <button type="button" class="star-btn" data-value="4" aria-label="4 stars">&#9733;</button>
+                        <button type="button" class="star-btn" data-value="5" aria-label="5 stars">&#9733;</button>
                     </div>
-                    <span class="rating-error" id="rating-error">Please select a rating</span>
+                    <span class="rating-error" id="rating-error" role="alert">Please select a rating</span>
                 </div>
 
-                <textarea id="product-review" placeholder="Write your review here..." required></textarea>
-                <button type="submit" class="submit-btn">Add Product</button>
+                <div class="field">
+                    <label for="product-review">Your Review</label>
+                    <textarea id="product-review" placeholder="What did you like or dislike about it?" required></textarea>
+                </div>
+
+                <div class="field">
+                    <span class="field-legend">Photo <span class="optional">optional</span></span>
+                    <div class="image-field">
+                        <div class="image-actions">
+                            <button type="button" class="image-btn" id="pick-gallery">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 16-5-5L5 20"/></svg>
+                                Choose from gallery
+                            </button>
+                            <button type="button" class="image-btn" id="pick-camera">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+                                Take a photo
+                            </button>
+                        </div>
+
+                        <!-- Two inputs: `capture` asks a phone for the camera
+                             directly, while the plain one opens the gallery.
+                             Both are driven by the buttons above. -->
+                        <input type="file" id="image-gallery-input" class="file-input" accept="image/*">
+                        <input type="file" id="image-camera-input" class="file-input" accept="image/*" capture="environment">
+
+                        <div class="image-preview" id="image-preview" hidden>
+                            <img id="image-preview-img" alt="Preview of the selected product photo">
+                            <button type="button" class="image-remove" id="image-remove" aria-label="Remove selected photo">&times;</button>
+                        </div>
+
+                        <p class="image-hint" id="image-hint">Large photos are resized before saving.</p>
+                    </div>
+                </div>
+
+                <p class="form-error" id="form-error" role="alert"></p>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Add Review</button>
+                </div>
             </form>
         </section>
 
-        <section class="list-section">
-            <div class="list-header">
-                <h2>Products</h2>
-                <span id="product-count" class="count-badge">0</span>
+        <!-- Product list --------------------------------------------------- -->
+        <section id="products" class="app-section">
+            <div class="list-head">
+                <div class="section-head" style="margin-bottom: 0;">
+                    <span class="eyebrow">Products</span>
+                    <div class="list-title">
+                        <h2>Product Reviews</h2>
+                        <span id="product-count" class="count-badge">0</span>
+                    </div>
+                    <p class="section-sub">Browse and manage the products you&rsquo;ve reviewed.</p>
+                </div>
+
+                <div class="search-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input type="text" id="search" placeholder="Search reviews..." aria-label="Search products">
+                </div>
             </div>
+
             <div id="product-list" class="product-grid"></div>
-            <p id="empty-state" class="empty-state">No products yet — add one above to get started.</p>
+            <div id="empty-state" class="empty-state"></div>
         </section>
     </div>
+
+    <footer class="site-foot">
+        Product Review System &mdash; built with plain HTML, CSS and JavaScript.
+    </footer>
 
     <script src="web.js"></script>
 </body>
